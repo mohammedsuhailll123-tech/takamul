@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm run build --workspace=portfolio",
+  "outputDirectory": "portfolio/dist",
+  "framework": "astro"
+}

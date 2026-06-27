@@ -1,0 +1,11 @@
+{
+  "name": "takamul-root",
+  "private": true,
+  "workspaces": [
+    "portfolio"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=portfolio",
+    "dev": "npm run dev --workspace=portfolio"
+  }
+}
