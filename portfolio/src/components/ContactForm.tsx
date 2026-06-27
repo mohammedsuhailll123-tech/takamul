@@ -42,19 +42,47 @@ export const ContactForm: React.FC<ContactFormProps> = ({ currentLang: initialLa
 
     setStatus('sending');
 
-    // Simulate server request
-    setTimeout(() => {
-      setStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        subject: '',
-        message: ''
-      });
-      setTimeout(() => setStatus('idle'), 6000);
-    }, 1500);
+    const emailTo = 'info@takamul.sa';
+    let emailSubject = '';
+    let emailBody = '';
+
+    if (lang === 'ar') {
+      emailSubject = formData.subject ? `استفسار: ${formData.subject}` : 'نموذج التواصل بموقع تكامل الحلول';
+      emailBody = `مرحباً فريق تكامل الحلول،\n\n` +
+                  `تم إرسال رسالة تواصل جديدة عبر النموذج الإلكتروني بالموقع:\n\n` +
+                  `الاسم: ${formData.name}\n` +
+                  `البريد الإلكتروني: ${formData.email}\n` +
+                  `الهاتف: ${formData.phone || 'غير محدد'}\n` +
+                  `الشركة: ${formData.company || 'غير محدد'}\n` +
+                  `الموضوع: ${formData.subject || 'غير محدد'}\n\n` +
+                  `الرسالة:\n${formData.message}\n`;
+    } else {
+      emailSubject = formData.subject ? `Inquiry: ${formData.subject}` : 'New Contact Submission - Takamul Solutions';
+      emailBody = `Hello Takamul Solutions Team,\n\n` +
+                  `You have received a new contact form submission:\n\n` +
+                  `Name: ${formData.name}\n` +
+                  `Email: ${formData.email}\n` +
+                  `Phone: ${formData.phone || 'Not provided'}\n` +
+                  `Company: ${formData.company || 'Not provided'}\n` +
+                  `Subject: ${formData.subject || 'Not provided'}\n\n` +
+                  `Message:\n${formData.message}\n`;
+    }
+
+    const mailtoUrl = `mailto:${emailTo}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    
+    // Redirect to native mail application
+    window.location.href = mailtoUrl;
+
+    setStatus('success');
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      company: '',
+      subject: '',
+      message: ''
+    });
+    setTimeout(() => setStatus('idle'), 6000);
   };
 
   return (
